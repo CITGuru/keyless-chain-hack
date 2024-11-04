@@ -91,9 +91,12 @@ export default function CustomChatbot({
   }
 
   return (
-    <Card className="w-[1000px] min-w-2xl max-w-2xl mx-auto">
-      <CardContent className="p-6">
-        <ScrollArea className="h-[600px] pr-4 w-full" ref={scrollAreaRef}>
+    <Card className="w-[1000px] h-[800px] min-w-2xl max-w-2xl mx-auto">
+      <CardContent className="p-6 h-full flex flex-col">
+        <ScrollArea 
+          className="flex-1 pr-4 w-full mb-4"
+          ref={scrollAreaRef}
+        >
           {messages.map((message, index) => (
             <div key={index} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'} mb-4`}>
               <div className={`flex items-start ${message.role === 'user' ? 'flex-row-reverse' : ''}`}>
@@ -129,7 +132,7 @@ export default function CustomChatbot({
           ))}
         </ScrollArea>
         {messages.length === 0 && (
-          <div className="flex flex-wrap justify-center gap-2 mt-4">
+          <div className="flex flex-wrap justify-center gap-2 mb-4">
             {previewButtons.map((button, index) => (
               <Button 
                 key={index} 
@@ -142,7 +145,7 @@ export default function CustomChatbot({
             ))}
           </div>
         )}
-        <form onSubmit={handleSubmit} className="mt-4 flex items-center space-x-2">
+        <form onSubmit={handleSubmit} className="flex items-center space-x-2">
           <Input
             ref={inputRef}
             value={input}

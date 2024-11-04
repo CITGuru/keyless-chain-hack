@@ -14,6 +14,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 // import TransactionDetailsPopup from './transaction-details-popup';
 import { useAccount, useWallets } from "@particle-network/connectkit";
 import { isEVMChain } from "@particle-network/connectkit/chains";
+import Header from "../Header";
 
 import "./ai.css";
 
@@ -195,16 +196,17 @@ export default function AIChat({ isDarkMode }) {
   };
 
   return (
-    <>
+    <div className="min-h-screen bg-white">
       {!isLoading && (
-        <div
-          className="dynamic-methods"
-          data-theme={isDarkMode ? "dark" : "light"}
-        >
-          <div className="methods-container">
-            {chain && isEVMChain(chain) && (
-              <div>
-                <div className="container mx-auto p-4">
+        <>
+          <Header />
+          <div
+            className="dynamic-methods pt-16 px-4"
+            data-theme={isDarkMode ? "dark" : "light"}
+          >
+            <div className="methods-container max-w-4xl mx-auto">
+              {chain && isEVMChain(chain) && (
+                <div className="h-full">
                   <CustomChatbot
                     previewButtons={previewButtons}
                     onSubmit={handleSubmit}
@@ -223,24 +225,24 @@ export default function AIChat({ isDarkMode }) {
                     details={transactionDetails}
                   />
                 </div>
+              )}
+            </div>
+            {result && (
+              <div className="results-container">
+                <pre className="results-text">{result}</pre>
+              </div>
+            )}
+            {result && (
+              <div className="clear-container">
+                <button className="btn btn-primary" onClick={clearResult}>
+                  Clear
+                </button>
               </div>
             )}
           </div>
-          {result && (
-            <div className="results-container">
-              <pre className="results-text">{result}</pre>
-            </div>
-          )}
-          {result && (
-            <div className="clear-container">
-              <button className="btn btn-primary" onClick={clearResult}>
-                Clear
-              </button>
-            </div>
-          )}
-        </div>
+        </>
       )}
-    </>
+    </div>
   );
 }
 
