@@ -17,7 +17,7 @@ const checkIsDarkSchemePreferred = () => {
 
 export default function Index() {
   const { isConnected, chain } = useAccount();
-  const { disconnect } = useDisconnect();
+//   const { disconnect } = useDisconnect();
   const [isDarkMode, setIsDarkMode] = useState(checkIsDarkSchemePreferred);
 
   useEffect(() => {
@@ -36,7 +36,7 @@ export default function Index() {
       <main className={styles["main-content"]}>
         {isConnected && chain && isEVMChain(chain) ? (
           <>
-            <button onClick={()=>{ disconnect() }}>Disconnect</button>
+            {/* <button onClick={()=>{ disconnect() }}>Disconnect</button> */}
 
             <AIChat isDarkMode={isDarkMode} />
           </>
