@@ -96,6 +96,8 @@ class SwapIntent extends IntentBase {
 
         const amount = parseUnits(this.amount.toString(), decimal)
 
+        console.log(amount, token)
+
         const req = await triggerSwapRoute({ fromAddress: fromAddress, chainId: network.chain_id, tokenIn: this.fromToken.address, tokenOut: this.toToken.address, amountIn: amount.toString() })
         return req
 

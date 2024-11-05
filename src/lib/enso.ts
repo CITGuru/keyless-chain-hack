@@ -112,5 +112,7 @@ export const triggerSwapRoute = async (body: { chainId: number, fromAddress: str
     response = { ...response, ...data.tx }
     delete response.tx
 
+    console.log(JSON.stringify(data))
+
     return response
 }
