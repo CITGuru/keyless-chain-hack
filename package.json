@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@lifi/sdk": "^3.4.1",
     "@particle-network/aa": "^2.0.2",
     "@particle-network/auth-core-modal": "^1.5.2",
     "@particle-network/chains": "^1.7.6",
@@ -26,6 +27,7 @@
     "axios": "^1.7.7",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "klaster-sdk": "0.5.11",
     "lucide-react": "^0.453.0",
     "next": "14.2.5",
     "react": "^18",

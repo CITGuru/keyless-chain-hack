@@ -57,7 +57,7 @@ export async function getERC20Balance(address: string, contractAddress: string) 
 export function buildTransferNative(from: string, receiver: string, amount: number) {
   return {
     to: receiver,
-    value: parseEther(amount.toString()), // Convert amount to wei
+    value: parseEther(amount.toString()).toString(), // Convert amount to wei
     from: from
   };
 }

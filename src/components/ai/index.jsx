@@ -13,13 +13,23 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 // import TransactionDetailsPopup from './transaction-details-popup';
 import { useAccount, useWallets } from "@particle-network/connectkit";
-import { isEVMChain } from "@particle-network/connectkit/chains";
+import { isEVMChain, step } from "@particle-network/connectkit/chains";
 import Header from "../Header";
 
 import "./ai.css";
 
-export default function AIChat({ isDarkMode }) {
-  
+import {
+  buildMultichainReadonlyClient,
+  buildRpcInfo,
+  initKlaster,
+  klasterNodeHost,
+  loadBicoV2Account,
+} from "klaster-sdk";
+
+import { createWalletClient, custom, http } from "viem";
+import { bootStrapKlaster, buildTransaction, convertActionsToKlasterRawSteps } from "@/lib/klaster";
+
+export default function AIChat({ isDarkMode=false }) {
 
   const [isLoading, setIsLoading] = useState(true);
   const [result, setResult] = useState("");
@@ -86,6 +96,7 @@ export default function AIChat({ isDarkMode }) {
         value,
         // chain: "1" as any,
         account: address ,
+        gas
       });
 
       console.log("Transaction sent:", txHash);
@@ -98,6 +109,11 @@ export default function AIChat({ isDarkMode }) {
   };
 
   const handleSubmit = async (message) => {
+
+
+
+    // const EOAprovider = await primaryWallet.connector.getProvider();
+    // console.log(EOAprovider)
     const chain = chainId?.toString();
     const requestBody = {
       query: message,
@@ -143,8 +159,11 @@ export default function AIChat({ isDarkMode }) {
 
   useEffect(() => {
     console.log(isConnected, chain, chainId, address)
+
     if (isConnected && chain && isEVMChain(chain)) {
       setIsLoading(false);
+      // testConnection().then((e)=>{console.log(e, "Worked")})
+
       console.log("Request - ", chain, chainId)
     }
   }, [isConnected, chain, chain]);
@@ -152,6 +171,9 @@ export default function AIChat({ isDarkMode }) {
   function clearResult() {
     setResult("");
   }
+
+  
+   
 
   const callBatchingEndpoint = async () => {
     if (!bundleTx) {
@@ -195,6 +217,76 @@ export default function AIChat({ isDarkMode }) {
     }
   };
 
+  const calliTxEndpoint = async () => {
+    if (!storedActions) {
+      console.error("No actions transaction data available");
+      return;
+    }
+
+    // setIsBatching(true);
+
+    try {
+      const chain = chainId?.toString();
+
+      let provider = await primaryWallet.connector.getProvider()
+
+      const { klaster, klasterSigner, address} = await bootStrapKlaster(provider)
+
+      const steps = convertActionsToKlasterRawSteps(storedActions, chain)
+      console.log("steps",steps);
+
+
+      const itx  = await buildTransaction(provider, steps)
+      console.log("iTx",itx);
+
+
+      const quote = await klaster.getQuote(itx);
+
+      console.log("Sending quote transaction:", JSON.stringify(quote));
+
+
+
+      const signed = await klasterSigner.signMessage({
+        message: {
+          raw: quote.itxHash,
+        },
+        account:address,
+      });
+
+      console.log("Sending bundle transaction:",signed);
+
+
+      const result = await klaster.execute(quote, signed)
+
+
+
+      // const txHash = await wallet.signMessage({
+      //   to: to,
+      //   data,
+      //   from,
+      //   value,
+      //   chain: chain,
+      //   account: address
+      // });
+
+      console.log("Bundle transaction sent:", result);
+      // You might want to update the UI to show the transaction was sent successfully
+      // For example:
+      // setTransactionstatus('Bundle transaction sent successfully');
+      // setTransactionHash(txHash);
+
+      // Clear the stored actions and bundleTx after successful transaction
+      setStoredActions([]);
+      setBundleTx(null);
+    } catch (error) {
+      console.error("Error signing bundle transaction:", error);
+      // Handle the error (e.g., show an error message to the user)
+      // setTransactionStatus('Error sending bundle transaction: ' + error.message);
+    } finally {
+      setIsBatching(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white">
       {!isLoading && (
@@ -202,7 +294,7 @@ export default function AIChat({ isDarkMode }) {
           <Header />
           <div
             className="dynamic-methods pt-16 px-4"
-            data-theme={isDarkMode ? "dark" : "light"}
+            // data-theme={isDarkMode ? "dark" : "light"}
           >
             <div className="methods-container max-w-4xl mx-auto">
               {chain && isEVMChain(chain) && (
@@ -213,6 +305,7 @@ export default function AIChat({ isDarkMode }) {
                     onSignatureRequest={handleSignatureRequest}
                     onViewTransaction={handleViewTransaction}
                     onBundleSigning={callBatchingEndpoint}
+                    oniTxSigning={calliTxEndpoint}
                   />
                   <SignaturePopup
                     isOpen={isSignaturePopupOpen}
