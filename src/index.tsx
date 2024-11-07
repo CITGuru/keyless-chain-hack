@@ -38,7 +38,7 @@ export default function Index() {
           <>
             {/* <button onClick={()=>{ disconnect() }}>Disconnect</button> */}
 
-            <AIChat isDarkMode={isDarkMode} />
+            <AIChat  />
           </>
         ) : (
           <ConnectButton label="Login or connect wallet" />
