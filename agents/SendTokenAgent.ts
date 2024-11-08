@@ -81,10 +81,6 @@ export const SendTokenAgent = new Agent({
     }}
     Note: if you see bridge, use the transferToBridgeAgent function. 
     
-   
-    Another important note: Always ensure you analyze the to value which is usually more than 10 characters if it does not end in an extension name for instance .eth/.base. 
-    Ensure you dont use token name as to/receiver address. And again if you find yourself analyzing any command that specifies the source and destination chain, transfer to the transferToBridgeAgent function
-
     Above are examples, NOTE these are only examples and in practice you need to call the tools with the correct arguments. NEVER respond with JSON.
     Take extra care in the order of transactions to prepare.
     IF a prepared swap transaction will provide the token needed for a transfer, you DO NOT need to call the getTokenBalance tool.

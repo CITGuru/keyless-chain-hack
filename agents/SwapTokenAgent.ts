@@ -74,10 +74,6 @@ export const SwapTokenAgent = new Agent({
     Call prepareSwapTransaction: "2 ETH to USDC"
     Note: the second step is a bridge action and should be transfer to the bridge agent using the transferToBridgeAgent function
 
-    Example 7:
-    User: Swap 2 ETH from ethereum to USDC on base
-    Note: if you see this type of command where the source chain specified using 'from' and destination chain using 'on', use the transferToBridgeAgent function.
-   
     Example of a bad input:
     User: Swap ETH to 1 UNI, then swap UNI to 4 USDC
     Call prepareSwapTransaction: "ETH to 1 UNI\n1 UNI to 4 USDC"

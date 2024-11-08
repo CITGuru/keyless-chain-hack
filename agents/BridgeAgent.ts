@@ -65,8 +65,8 @@ export const BridgeTokenAgent = new Agent({
         "toToken": "BOB"
     }}
 
-    Note: if you see swap/buy/sell, use the transferToSwapAgent function (except the source chain is specified using 'from' and destination chain specified using 'on')
-    Note: if you see send/transfer, use the transferToSendAgent function
+    // Note: if you see swap/buy/sell, use the transferToSwapAgent function (except the source chain is specified using 'from' and destination chain specified using 'on')
+    // Note: if you see send/transfer, use the transferToSendAgent function
 
     Example 2:
     User: Bridge 10 USDC from ethereum to base
@@ -80,18 +80,18 @@ export const BridgeTokenAgent = new Agent({
     }}
 
     Example 3:
-    User: Swap 1 ETH to USDC and Bridge 100 USDC from ethereum to optimism
+    User: Bridge 100 USDC from ethereum to USDT on optimism
     Call prepareBridgeTransaction with args:
     {{
         "amount": 100,
         "fromChain": "ethereum",
         "toChain": "optimism",
         "fromToken": "USDC",
-        "toToken": "USDC"
+        "toToken": "USDT"
     }}
 
     Example 4:
-    User: Swap 2 ETH on ethereum to USDC on base
+    User: Bridge 2 ETH from ethereum to USDC on base
     Call prepareBridgeTransaction with args:
     {{
         "amount": 2,
@@ -102,7 +102,7 @@ export const BridgeTokenAgent = new Agent({
     }}
 
     Example 5:
-    User: Swap 100 USDT from ethereum to USDC on base
+    User: Bridge 100 USDT from ethereum to USDC on base
     Call prepareBridgeTransaction with args:
     {{
         "amount": 100,
@@ -114,6 +114,9 @@ export const BridgeTokenAgent = new Agent({
 
     Example 6:
     User: Swap 2 ETH to USDC and Bridge 1000 USDC from ethereum to base
+    ...
+    Other agent messages
+    ...
     Call prepareBridgeTransaction with args:
     {{
         "amount": 1000,
@@ -122,7 +125,7 @@ export const BridgeTokenAgent = new Agent({
         "fromToken": "USDC",
         "toToken": "USDC"
     }}
-    Note: we are concerned about the second step
+    Note: if you see swap/buy, use the transferToSwapAgent function
     `,
     model: "gpt-4o-mini",
     functions: [prepareBridgeTransaction, transferToSendAgent, transferToSwapAgent],
