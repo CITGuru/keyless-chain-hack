@@ -1,49 +1,68 @@
-# Particle Connect
+# Keyless AI: Project Overview.
 
-Particle Connect acts as a simple method of aggregating connection with both Web2 accounts through Particle Auth and Web3 accounts through traditional wallets, creating an equally accessible experience for both Web3 natives and traditional consumers. Specifically, Particle Connect is a custom connection modal built around interaction with Particle.
+## Introduction
 
-## Getting Started
+Keyless AI is an innovative personal assistant designed to orchestrate and execute on-chain transactions using an intent-based paradigm and a multi-agent network. It aims to simplify blockchain interactions for users by interpreting natural language intents and translating them into complex series of on-chain actions.
 
-First, create and configure the `.env` file by referring to the `.env.sample`.
+## Key Features
 
-```
-# Particle Project Config, learn more info:  https://dashboard.particle.network/
-NEXT_PUBLIC_PROJECT_ID=xxxx
-NEXT_PUBLIC_CLIENT_KEY=xxxx
-NEXT_PUBLIC_APP_ID=xxxx
+1. **Intent-Based User Interface**: Users interact with Keyless AI using natural language, describing their desired outcomes rather than specifying technical details.
 
-# WalletConnect Project Id, learn more info: https://cloud.walletconnect.com/
-NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=xxxx
-```
+2. **Multi-Agent Orchestration**: A network of specialized AI agents collaborates to interpret user intents and devise optimal execution strategies.
 
-Run the development server:
+3. **Smart Account Integration**: Currently supports Particle Network Connect SDK and Biconomy smart accounts, allowing for secure and flexible transaction management.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+4. **On-Chain Transaction Batching**: Efficiently bundles multiple operations into optimized transaction sets for cost-effective execution.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+5. **Extensible Agent Ecosystem**: Designed to accommodate an expanding set of specialized agents for various blockchain operations.
 
-## Learn More
+## Core Components
 
-### Connectkit
+### 1. Intent Parsing System
+Translates user's natural language inputs into structured intents that can be processed by the multi-agent system.
 
-To learn more about Connectkit, take a look at the following resources:
+### 2. Multi-Agent Orchestration System
+Coordinates a team of specialized AI agents to collaborate on fulfilling user intents. Uses Autogen Group Chat for inter-agent communication.
 
-- [🔥Live Demo](https://demo.particle.netwok) - feature demonstration and custom styling.
-- [Docs](https://developers.particle.network/api-reference/connect/desktop/web) - learn about `@particle-network/connectkit` features and API.
+### 3. Smart Account Interface
+Integrates with Particle Network Connect SDK and Biconomy smart accounts, enabling secure transaction proposal and execution.
 
-### Next.js
+### 4. Transaction Batching and Execution Module
+Compiles proposed actions from various agents into optimized transaction sets, manages user approval, and handles on-chain execution.
 
-To learn more about Next.js, take a look at the following resources:
+## Specialized Agents
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. **Send Tokens Agent**: Manages transfers of ERC20 tokens and ETH.
+2. **Swap Tokens Agent**: Facilitates token exchanges across various decentralized exchanges.
+3. **Bridge Tokens Agent**: Enables cross-chain token transfers.
+4. **Token Research Agent**: Provides in-depth analysis of token metrics, market data, and trends.
+5. **Staking Agent**: Manages yield-generating activities through various staking protocols.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Workflow
+
+1. User submits a natural language intent to Keyless AI.
+2. The intent parsing system interprets the user's request.
+3. A new Autogen Group Chat is created, bringing together relevant AI agents.
+4. Agents collaborate, contribute expertise, and select appropriate tools to fulfill the intent.
+5. As agents work, they add necessary transactions to a shared batch.
+6. The compiled transaction batch is proposed to the user's smart account.
+7. User reviews and approves the proposed transactions.
+8. Keyless AI executes the approved transactions on-chain.
+
+## Security Considerations
+
+- Utilizes self custodial and smart wallets for transaction signing.
+- Implements a mandatory user approval step before any on-chain execution.
+- Includes transaction simulation and gas estimation to prevent unexpected outcomes.
+- Employs secure key management practices to protect user assets.
+
+## Future Developments
+
+- Integration with additional smart account providers beyond Particle Network Connect SDK and Biconomy.
+- Expansion of the agent ecosystem to cover more specialized blockchain operations.
+- Enhanced natural language processing for more complex and nuanced user intents.
+- Implementation of AI-driven strategic advice for optimal transaction timing and execution.
+
+## Conclusion
+
+Keyless AI represents a significant step forward in making blockchain interactions more accessible and intuitive for users. By leveraging AI agents and intent-based interactions, it abstracts away the complexities of blockchain operations, allowing users to focus on their desired outcomes rather than technical details. As the project evolves, it has the potential to become a powerful tool for both novice and experienced blockchain users, streamlining complex operations and opening up new possibilities for on-chain activities.
