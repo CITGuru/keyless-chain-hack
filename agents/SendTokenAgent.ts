@@ -72,7 +72,7 @@ export const SendTokenAgent = new Agent({
     }}
     NOTE: the second transfer was not prepared because it's waiting for the swap transaction to be prepared first.
     Example 4:
-    User: Send 53 UNI to 0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045 and bridge 10 bob from sepolia to zkEvm
+    User: Send 53 UNI to 0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045 and then bridge 10 bob from sepolia to zkEvm
     Call prepareTransaction with args:
     {{
         "amount": 53,

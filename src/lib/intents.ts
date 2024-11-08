@@ -156,7 +156,7 @@ class BridgeIntent extends IntentBase {
     amount: number;
 
     private constructor(fromChain: Chain, toChain: Chain, fromToken: Token, toToken: Token, amount: number) {
-        super(IntentType.BRIDGE, `Bridge amount worth of ${amount} ${fromToken.symbol} from ${fromChain.name} to  ${toChain.name}`);
+        super(IntentType.BRIDGE, `Bridge amount worth of ${amount} ${fromToken.symbol} from ${fromChain.name} to  ${fromToken.symbol} on ${toChain.name}`);
         this.fromChain = fromChain;
         this.toChain = toChain
         this.amount = amount;

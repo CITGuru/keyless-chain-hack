@@ -65,9 +65,7 @@ export const BridgeTokenAgent = new Agent({
         "toToken": "BOB"
     }}
 
-    // Note: if you see swap/buy/sell, use the transferToSwapAgent function (except the source chain is specified using 'from' and destination chain specified using 'on')
-    // Note: if you see send/transfer, use the transferToSendAgent function
-
+   
     Example 2:
     User: Bridge 10 USDC from ethereum to base
     Call prepareBridgeTransaction with args:
@@ -113,10 +111,7 @@ export const BridgeTokenAgent = new Agent({
     }}
 
     Example 6:
-    User: Swap 2 ETH to USDC and Bridge 1000 USDC from ethereum to base
-    ...
-    Other agent messages
-    ...
+    User: Bridge 1000 USDC from base to ethereum and swap 500 USDC to ETH
     Call prepareBridgeTransaction with args:
     {{
         "amount": 1000,
@@ -130,3 +125,6 @@ export const BridgeTokenAgent = new Agent({
     model: "gpt-4o-mini",
     functions: [prepareBridgeTransaction, transferToSendAgent, transferToSwapAgent],
 });
+
+ // Note: if you see swap/buy/sell, use the transferToSwapAgent function (except the source chain is specified using 'from' and destination chain specified using 'on')
+// Note: if you see send/transfer, use the transferToSendAgent function
