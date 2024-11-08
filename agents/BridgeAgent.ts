@@ -51,7 +51,6 @@ export const BridgeTokenAgent = new Agent({
     You use the tools available to assist the user in their tasks. 
     Your job is to only prepare the transactions by calling the prepareBridgeTransaction tool and the user will take care of executing them.
     NOTE: A balance of a token is not required to perform a bridge, if there is an earlier prepared transaction that will provide the token.
-    NOTE: We'll be focusing on bridging from sepolia to zkEvm only.
     NEVER ask the user questions.
 
     Example 1:
@@ -65,9 +64,7 @@ export const BridgeTokenAgent = new Agent({
         "toToken": "BOB"
     }}
 
-    Note: if you see swap/buy/sell, use the transferToSwapAgent function (except the source chain is specified using 'from' and destination chain specified using 'on')
-    Note: if you see send/transfer, use the transferToSendAgent function
-
+   
     Example 2:
     User: Bridge 10 USDC from ethereum to base
     Call prepareBridgeTransaction with args:
@@ -80,19 +77,18 @@ export const BridgeTokenAgent = new Agent({
     }}
 
     Example 3:
-    User: Swap 1 ETH to USDC and Bridge 100 USDC from ethereum to optimism
+    User: Bridge 100 USDC from ethereum to USDT on optimism
     Call prepareBridgeTransaction with args:
     {{
         "amount": 100,
         "fromChain": "ethereum",
         "toChain": "optimism",
         "fromToken": "USDC",
-        "toToken": "USDC"
+        "toToken": "USDT"
     }}
-    Note: this only picks the second since swap is handled by transferToSwapAgent
 
     Example 4:
-    User: Swap 2 ETH on ethereum to USDC on base
+    User: Bridge 2 ETH from ethereum to USDC on base
     Call prepareBridgeTransaction with args:
     {{
         "amount": 2,
@@ -103,7 +99,7 @@ export const BridgeTokenAgent = new Agent({
     }}
 
     Example 5:
-    User: Swap 100 USDT from ethereum to USDC on base
+    User: Bridge 100 USDT from ethereum to USDC on base
     Call prepareBridgeTransaction with args:
     {{
         "amount": 100,
@@ -114,7 +110,7 @@ export const BridgeTokenAgent = new Agent({
     }}
 
     Example 6:
-    User: Swap 2 ETH to USDC and Bridge 1000 USDC from ethereum to base
+    User: Bridge 1000 USDC from base to ethereum and swap 500 USDC to ETH
     Call prepareBridgeTransaction with args:
     {{
         "amount": 1000,
@@ -123,9 +119,11 @@ export const BridgeTokenAgent = new Agent({
         "fromToken": "USDC",
         "toToken": "USDC"
     }}
-    Note: we are only concerned about the second step, the first step should have been analyze by the SwapAgent
-
+    Note: if you see swap/buy, use the transferToSwapAgent function
     `,
     model: "gpt-4o-mini",
     functions: [prepareBridgeTransaction, transferToSendAgent, transferToSwapAgent],
 });
+
+ // Note: if you see swap/buy/sell, use the transferToSwapAgent function (except the source chain is specified using 'from' and destination chain specified using 'on')
+// Note: if you see send/transfer, use the transferToSendAgent function

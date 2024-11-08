@@ -13,8 +13,8 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 // import TransactionDetailsPopup from './transaction-details-popup';
 import { useAccount, useWallets } from "@particle-network/connectkit";
-import { isEVMChain, step } from "@particle-network/connectkit/chains";
-import Header from "../Header";
+import { isEVMChain } from "@particle-network/connectkit/chains";
+import Header from "../header";
 
 import "./ai.css";
 
@@ -96,7 +96,6 @@ export default function AIChat({ isDarkMode=false }) {
         value,
         // chain: "1" as any,
         account: address ,
-        gas
       });
 
       console.log("Transaction sent:", txHash);
@@ -256,16 +255,6 @@ export default function AIChat({ isDarkMode=false }) {
 
       const result = await klaster.execute(quote, signed)
 
-
-
-      // const txHash = await wallet.signMessage({
-      //   to: to,
-      //   data,
-      //   from,
-      //   value,
-      //   chain: chain,
-      //   account: address
-      // });
 
       console.log("Bundle transaction sent:", result);
       // You might want to update the UI to show the transaction was sent successfully

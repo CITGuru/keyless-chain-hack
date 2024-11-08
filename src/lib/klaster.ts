@@ -1,16 +1,13 @@
 import { getRoutes, RoutesRequest } from "@lifi/sdk";
-import { Address, batchTx, BridgePlugin, encodeBridgingOps, rawTx, buildItx, singleTx, TransactionBatch, PaymentTokenSymbol } from "klaster-sdk";
-import { Hex, } from "viem";
 import {
-    buildMultichainReadonlyClient,
-    buildRpcInfo,
-    initKlaster,
+    Address, batchTx, BridgePlugin, encodeBridgingOps, rawTx, buildItx, singleTx, TransactionBatch, PaymentTokenSymbol, initKlaster,
     klasterNodeHost,
-    loadBicoV2Account,
+    loadBicoV2Account
 } from "klaster-sdk";
+
 import { ERC20_ABI } from './abi'
 import { mainnet, optimism, step } from 'viem/chains'
-import { createWalletClient, custom, http, encodeFunctionData } from "viem";
+import { createWalletClient, custom, http, encodeFunctionData, Hex } from "viem";
 
 
 export const liFiBrigePlugin: BridgePlugin = async (data) => {
@@ -140,12 +137,15 @@ export const convertActionsToKlasterRawSteps = (actions: AIAction[], chain: stri
         let lastIndex = 0
         let step = steps.find((s, i) => { lastIndex = i; return s.chainId == chainId })
 
+
+        console.log(action.txData)
+
         if (step) {
-            const tx = constructRawKlasterTxData(action.txData.to as `0x${string}`, action.txData.data as Hex, BigInt(action.txData.value), BigInt(action.txData.gas))
+            const tx = constructRawKlasterTxData(action.txData.to as `0x${string}`, action.txData.data as Hex, BigInt(action.txData.value), BigInt(action.txData.gas || action.txData.gasLimit))
             step.txs.push(tx)
             steps[lastIndex] = step
         } else {
-            const tx = constructRawKlasterTxData(action.txData.to as `0x${string}`, action.txData.data as Hex, BigInt(action.txData.value), BigInt(action.txData.gas))
+            const tx = constructRawKlasterTxData(action.txData.to as `0x${string}`, action.txData.data as Hex, BigInt(action.txData.value), BigInt(action.txData.gas || action.txData.gasLimit))
             steps.push({ chainId: chainId, txs: [tx] })
         }
     }

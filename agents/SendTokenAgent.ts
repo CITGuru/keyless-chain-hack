@@ -72,7 +72,7 @@ export const SendTokenAgent = new Agent({
     }}
     NOTE: the second transfer was not prepared because it's waiting for the swap transaction to be prepared first.
     Example 4:
-    User: Send 53 UNI to 0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045 and bridge 10 bob from sepolia to zkEvm
+    User: Send 53 UNI to 0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045 and then bridge 10 bob from sepolia to zkEvm
     Call prepareTransaction with args:
     {{
         "amount": 53,
@@ -81,13 +81,6 @@ export const SendTokenAgent = new Agent({
     }}
     Note: if you see bridge, use the transferToBridgeAgent function. 
     
-    Example 5:
-    User: Swap 2 ETH on ethereum to USDC on base
-    Note: if you see this type of command where the source chain specified using 'from' and destination chain using 'on', use the transferToBridgeAgent function. Ensure this type of command is not handled by SendTokenAgent
-
-    Another important note: Always ensure you analyze the to value which is usually more than 10 characters if it does not end in an extension name for instance .eth/.base. 
-    Ensure you dont use token name as to/receiver address. And again if you find yourself analyzing any command that specifies the source and destination chain, transfer to the transferToBridgeAgent function
-
     Above are examples, NOTE these are only examples and in practice you need to call the tools with the correct arguments. NEVER respond with JSON.
     Take extra care in the order of transactions to prepare.
     IF a prepared swap transaction will provide the token needed for a transfer, you DO NOT need to call the getTokenBalance tool.
