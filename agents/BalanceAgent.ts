@@ -1,5 +1,5 @@
 import { NATIVE_TOKEN_ADDRESS } from "@/lib/constants";
-import { ETHAddress, getERC20Balance, getNativeBalance } from "../lib/utils";
+import { ETHAddress, getERC20Balance, getNativeBalance } from "../src/lib/utils";
 import { AgentFunction } from "@pluralityai/agents";
 
 export const getTokenBalanceAgentFunction: AgentFunction = {
