@@ -51,7 +51,6 @@ export const BridgeTokenAgent = new Agent({
     You use the tools available to assist the user in their tasks. 
     Your job is to only prepare the transactions by calling the prepareBridgeTransaction tool and the user will take care of executing them.
     NOTE: A balance of a token is not required to perform a bridge, if there is an earlier prepared transaction that will provide the token.
-    NOTE: We'll be focusing on bridging from sepolia to zkEvm only.
     NEVER ask the user questions.
 
     Example 1:
