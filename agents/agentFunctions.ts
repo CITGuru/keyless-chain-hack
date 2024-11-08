@@ -1,4 +1,4 @@
-import { Swarm, Agent, AgentFunction } from "@pluralityai/agents";
+import { AgentFunction } from "@pluralityai/agents";
 import { SwapTokenAgent , BridgeTokenAgent, SendTokenAgent} from "./index"
 
 export const transferToSwapAgent: AgentFunction = {

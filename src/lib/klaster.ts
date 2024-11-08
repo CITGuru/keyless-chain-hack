@@ -1,5 +1,5 @@
 import { getRoutes, RoutesRequest } from "@lifi/sdk";
-import { Address, batchTx, BridgePlugin, encodeBridgingOps, rawTx, buildItx, singleTx, TransactionBatch } from "klaster-sdk";
+import { Address, batchTx, BridgePlugin, encodeBridgingOps, rawTx, buildItx, singleTx, TransactionBatch, PaymentTokenSymbol } from "klaster-sdk";
 import { Hex, } from "viem";
 import {
     buildMultichainReadonlyClient,
@@ -103,7 +103,7 @@ export const constructRawKlasterTxData = (toAddress: `0x${string}`, data: Hex, v
 }
 
 
-export const buildTransaction = async (provider: any, steps: TransactionBatch[], chain: number = mainnet.id) => {
+export const buildTransaction = async (provider: any, steps: TransactionBatch[], chain: number = mainnet.id, paymentToken: PaymentTokenSymbol = "USDC") => {
 
     const { klaster } = await bootStrapKlaster(provider)
 
@@ -113,7 +113,7 @@ export const buildTransaction = async (provider: any, steps: TransactionBatch[],
         steps: steps,
         // Klaster works with cross-chain gas abstraction. This instructs the Klaster
         // nodes to take USDC on Optimism as tx fee payment.
-        feeTx: klaster.encodePaymentFee(chain, "USDC"),
+        feeTx: klaster.encodePaymentFee(chain, paymentToken),
     });
 
     return iTx

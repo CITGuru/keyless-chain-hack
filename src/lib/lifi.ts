@@ -15,7 +15,7 @@ export type LifiBasePayload = {
     fromToken: string;
     fromAddress: string;
     toAddress: string;
-    order: "cheapest" | "fastest"
+    order: "CHEAPEST" | "FASTEST"
 }
 
 

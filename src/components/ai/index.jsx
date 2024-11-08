@@ -241,9 +241,7 @@ export default function AIChat({ isDarkMode=false }) {
 
 
       const quote = await klaster.getQuote(itx);
-
       console.log("Sending quote transaction:", JSON.stringify(quote));
-
 
 
       const signed = await klasterSigner.signMessage({

@@ -1,10 +1,10 @@
 import { Swarm, Agent, AgentFunction } from "@pluralityai/agents";
 import { transferToSendAgent, transferToSwapAgent } from "./agentFunctions";
 
-const prepareBridgeTransaction: AgentFunction = {
+export const prepareBridgeTransaction: AgentFunction = {
     name: "prepareBridgeTransaction",
-    func: ({ amount, fromChain, toChain, token }) => {
-        return JSON.stringify({ amount, fromChain, toChain, token })
+    func: ({ amount, fromChain, toChain, fromToken, toToken }) => {
+        return JSON.stringify({ amount, fromChain, toChain, fromToken, toToken })
     },
     descriptor: {
         name: "prepareBridgeTransaction",
@@ -25,12 +25,16 @@ const prepareBridgeTransaction: AgentFunction = {
                 required: true,
                 description: "The destination chain to bridge to",
             },
-            token: {
+            fromToken: {
                 type: "string",
                 required: true,
-                description: "The token to bridge",
+                description: "The token to bridge from",
             },
-
+            toToken: {
+                type: "string",
+                required: true,
+                description: "The token to bridge to",
+            },
         },
     },
 };
@@ -51,17 +55,76 @@ export const BridgeTokenAgent = new Agent({
     NEVER ask the user questions.
 
     Example 1:
-    User: Bridge 0.1 BOB from sepolia to zkEvm
+    User: Bridge 0.5 BOB from sepolia to zkEvm
     Call prepareBridgeTransaction with args:
     {{
-        "amount": 0.1,
+        "amount": 0.5,
         "fromChain": "sepolia",
         "toChain": "zkEvm",
-        "token": "BOB",
+        "fromToken": "BOB",
+        "toToken": "BOB"
     }}
 
-    Note: if you see swap/buy/sell, use the transferToSwapAgent function
+    Note: if you see swap/buy/sell, use the transferToSwapAgent function (except the source chain is specified using 'from' and destination chain specified using 'on')
     Note: if you see send/transfer, use the transferToSendAgent function
+
+    Example 2:
+    User: Bridge 10 USDC from ethereum to base
+    Call prepareBridgeTransaction with args:
+    {{
+        "amount": 10,
+        "fromChain": "ethereum",
+        "toChain": "base",
+        "fromToken": "USDC",
+        "toToken": "USDC"
+    }}
+
+    Example 3:
+    User: Swap 1 ETH to USDC and Bridge 100 USDC from ethereum to optimism
+    Call prepareBridgeTransaction with args:
+    {{
+        "amount": 100,
+        "fromChain": "ethereum",
+        "toChain": "optimism",
+        "fromToken": "USDC",
+        "toToken": "USDC"
+    }}
+    Note: this only picks the second since swap is handled by transferToSwapAgent
+
+    Example 4:
+    User: Swap 2 ETH on ethereum to USDC on base
+    Call prepareBridgeTransaction with args:
+    {{
+        "amount": 2,
+        "fromChain": "ethereum",
+        "toChain": "base",
+        "fromToken": "ETH",
+        "toToken": "USDC"
+    }}
+
+    Example 5:
+    User: Swap 100 USDT from ethereum to USDC on base
+    Call prepareBridgeTransaction with args:
+    {{
+        "amount": 100,
+        "fromChain": "ethereum",
+        "toChain": "base",
+        "fromToken": "USDT",
+        "toToken": "USDC"
+    }}
+
+    Example 6:
+    User: Swap 2 ETH to USDC and Bridge 1000 USDC from ethereum to base
+    Call prepareBridgeTransaction with args:
+    {{
+        "amount": 1000,
+        "fromChain": "ethereum",
+        "toChain": "base",
+        "fromToken": "USDC",
+        "toToken": "USDC"
+    }}
+    Note: we are only concerned about the second step, the first step should have been analyze by the SwapAgent
+
     `,
     model: "gpt-4o-mini",
     functions: [prepareBridgeTransaction, transferToSendAgent, transferToSwapAgent],
