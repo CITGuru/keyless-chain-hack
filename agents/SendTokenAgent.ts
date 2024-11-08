@@ -81,10 +81,7 @@ export const SendTokenAgent = new Agent({
     }}
     Note: if you see bridge, use the transferToBridgeAgent function. 
     
-    Example 5:
-    User: Swap 2 ETH on ethereum to USDC on base
-    Note: if you see this type of command where the source chain specified using 'from' and destination chain using 'on', use the transferToBridgeAgent function. Ensure this type of command is not handled by SendTokenAgent
-
+   
     Another important note: Always ensure you analyze the to value which is usually more than 10 characters if it does not end in an extension name for instance .eth/.base. 
     Ensure you dont use token name as to/receiver address. And again if you find yourself analyzing any command that specifies the source and destination chain, transfer to the transferToBridgeAgent function
 

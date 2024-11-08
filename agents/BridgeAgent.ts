@@ -89,7 +89,6 @@ export const BridgeTokenAgent = new Agent({
         "fromToken": "USDC",
         "toToken": "USDC"
     }}
-    Note: this only picks the second since swap is handled by transferToSwapAgent
 
     Example 4:
     User: Swap 2 ETH on ethereum to USDC on base
@@ -123,8 +122,7 @@ export const BridgeTokenAgent = new Agent({
         "fromToken": "USDC",
         "toToken": "USDC"
     }}
-    Note: we are only concerned about the second step, the first step should have been analyze by the SwapAgent
-
+    Note: we are concerned about the second step
     `,
     model: "gpt-4o-mini",
     functions: [prepareBridgeTransaction, transferToSendAgent, transferToSwapAgent],
