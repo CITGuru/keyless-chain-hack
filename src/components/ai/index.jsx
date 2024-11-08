@@ -96,7 +96,6 @@ export default function AIChat({ isDarkMode=false }) {
         value,
         // chain: "1" as any,
         account: address ,
-        gas
       });
 
       console.log("Transaction sent:", txHash);
