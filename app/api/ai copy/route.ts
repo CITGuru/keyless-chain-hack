@@ -56,7 +56,6 @@ export async function POST(request: NextRequest) {
         const chain = data.chain
 
 
-
         for (const action of actions) {
             if (action.tool_name) {
                 const intent = agentIntent[action.tool_name]
@@ -113,21 +112,16 @@ export async function POST(request: NextRequest) {
                         name: action.content.toChain,
                         chain_id: getChainByName(action.content.toChain)?.chainId
                     }
-                    const fromToken = {
-                        symbol: action.content.fromToken,
-                        address: getTokenDetails(action.content.fromToken, Number(_chain))?.address
-                    }
-                    const toToken = {
-                        symbol: action.content.toToken,
-                        address: getTokenDetails(action.content.toToken, Number(toChain.chain_id))?.address
+                    const token = {
+                        symbol: action.content.token,
+                        address: getTokenDetails(action.content.token, Number(_chain))?.address
                     }
                     payload = {
                         ...payload,
                         amount: action.content.amount,
                         fromChain,
                         toChain,
-                        fromToken,
-                        toToken
+                        token,
                     }
 
 

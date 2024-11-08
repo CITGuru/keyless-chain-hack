@@ -40,6 +40,7 @@ const config = createConfig({
     recommendedWallets: [
       { walletId: 'metaMask', label: 'Recommended' },
       { walletId: 'coinbaseWallet', label: 'Popular' },
+      { walletId: 'rainbow', label: 'Popular' },
     ],
     language: 'en-US',
   },
@@ -49,9 +50,9 @@ const config = createConfig({
     evmWalletConnectors({
       // TODO: replace it with your app metadata.
       metadata: {
-        name: 'Connectkit Demo',
+        name: 'Keyless AI',
         icon: typeof window !== 'undefined' ? `${window.location.origin}/favicon.ico` : '',
-        description: 'Particle Connectkit Next.js Scaffold.',
+        description: 'Keyless AI',
         url: typeof window !== 'undefined' ? window.location.origin : '',
       },
       walletConnectProjectId: walletConnectProjectId,

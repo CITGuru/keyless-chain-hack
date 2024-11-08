@@ -156,7 +156,30 @@ export const getTokenDetailsByContract = (contractAddress: string) => {
   return token
 }
 
+// export const getChainByName = (name: string) => {
+//   const regex = new RegExp(name, 'i') // 'i' flag makes it case-insensitive
+//   const chain = chainlist.find((t) => regex.test(t.name ?? ''))
+
+//   console.log(chain)
+//   return chain
+// }
+
+
 export const getChainByName = (name: string) => {
-  const chain = chainlist.find((t) => t.name?.toLowerCase() == name?.toLowerCase())
-  return chain
+  const regex = new RegExp(name, 'i') // 'i' flag makes it case-insensitive
+  const nameWords = name.split(" ")
+
+  // Step 1: Check if the first word matches the beginning of any chain name
+  const firstWordMatch = chainlist.find((t) =>
+    t.name?.toLowerCase().startsWith(nameWords[0].toLowerCase())
+  )
+  if (firstWordMatch) return firstWordMatch
+
+  // Step 2: Look for an exact match (case-insensitive)
+  const exactMatch = chainlist.find((t) => t.name?.toLowerCase() === name.toLowerCase())
+  if (exactMatch) return exactMatch
+
+  // Step 3: If no exact match, fall back to regex partial match
+  const partialMatch = chainlist.find((t) => regex.test(t.name ?? ''))
+  return partialMatch
 }

@@ -63,12 +63,21 @@ export const SwapTokenAgent = new Agent({
     Example 4:
     User: Swap ETH to 5 USDC, then bridge 10 USDC from sepolia to zkEvm
     Call prepareSwapTransaction: "ETH to 5 USDC"
-    Note: the second step is a bridge action and should be transfer to the bridge agent using the 
-    transferToBridgeAgent function
+    Note: the second step is a bridge action and should be transfer to the bridge agent using the transferToBridgeAgent function
     Example 5:
     User: Buy 2 ETH worth of WBTC and then send 1 WBTC to 0x123..456
     Call prepareSwapTransaction: "2 ETH to WBTC"
     Note: if you see send/transfer, use the transferToSendAgent function
+
+    Example 6:
+    User: Swap 2 ETH from ethereum to USDC on base
+    Note: if you see this type of command where the source chain specified using 'from' and destination chain using 'on', use the transferToBridgeAgent function.
+
+    Example 7:
+    User: Swap 2 ETH to USDC and Bridge 1000 USDC from ethereum to base
+    Call prepareSwapTransaction: "2 ETH to USDC"
+    Note: the second step is a bridge action and should be transfer to the bridge agent using the transferToBridgeAgent function
+
 
     Example of a bad input:
     User: Swap ETH to 1 UNI, then swap UNI to 4 USDC

@@ -3,6 +3,8 @@ import { NATIVE_TOKEN_ADDRESS } from "./constants";
 import { buildTransferERC20, buildTransferNative, ETHAddress, getTokenDetailsByContract } from "./utils";
 import { triggerSwapRoute } from "./enso";
 import { constructBridgeTransaction } from "./bridgeEthPolygon";
+import { triggerLifiQuote } from "./lifi";
+import { AxiosError } from "axios";
 
 enum IntentType {
     SEND = "send",
@@ -33,7 +35,7 @@ abstract class IntentBase {
         this.type = type;
         this.summary = summary;
     }
-     // eslint-disable-next-line
+    // eslint-disable-next-line
     abstract buildTransaction(network: Chain, smartWalletAddress: string): any;
 }
 
@@ -98,7 +100,48 @@ class SwapIntent extends IntentBase {
 
         console.log(amount, token)
 
-        const req = await triggerSwapRoute({ fromAddress: fromAddress, chainId: network.chain_id, tokenIn: this.fromToken.address, tokenOut: this.toToken.address, amountIn: amount.toString() })
+        // const req = await triggerSwapRoute({ fromAddress: fromAddress, chainId: network.chain_id, tokenIn: this.fromToken.address, tokenOut: this.toToken.address, amountIn: amount.toString() })
+
+
+
+        let req;
+
+        try {
+
+            let toToken = this.toToken.address;
+            let fromToken = this.fromToken.address;
+
+            if (toToken == NATIVE_TOKEN_ADDRESS) {
+                toToken = "0x0000000000000000000000000000000000000000"
+            }
+
+            if (fromToken == NATIVE_TOKEN_ADDRESS) {
+                fromToken = "0x0000000000000000000000000000000000000000"
+            }
+
+            const lifi = await triggerLifiQuote({
+                fromChain: network.chain_id.toString(),
+                toChain: network.chain_id.toString(),
+                toToken: toToken,
+                fromToken: fromToken,
+                fromAmount: amount.toString(),
+                fromAddress: fromAddress,
+                toAddress: fromAddress,
+                order: 'FASTEST'
+            })
+
+            req = {
+                ...lifi,
+                ...lifi.transactionRequest
+            }
+
+        } catch (e: any) {
+            console.log(e)
+            if (e?.response?.status == 404 && e?.response?.data?.message == "No available quotes for the requested transfer") {
+                req = await triggerSwapRoute({ fromAddress: fromAddress, chainId: network.chain_id, tokenIn: this.fromToken.address, tokenOut: this.toToken.address, amountIn: amount.toString() })
+            }
+        }
+
         return req
 
     }
@@ -108,30 +151,63 @@ class SwapIntent extends IntentBase {
 class BridgeIntent extends IntentBase {
     fromChain: Chain;
     toChain: Chain;
-    token: Token;
+    fromToken: Token;
+    toToken: Token;
     amount: number;
 
-    private constructor(fromChain: Chain, toChain: Chain, token: Token, amount: number) {
-        super(IntentType.BRIDGE, `Bridge amount worth of ${amount} ${token.symbol} from ${fromChain.name} to  ${toChain.name}`);
-        this.fromChain =fromChain;
-        this.toChain =toChain
+    private constructor(fromChain: Chain, toChain: Chain, fromToken: Token, toToken: Token, amount: number) {
+        super(IntentType.BRIDGE, `Bridge amount worth of ${amount} ${fromToken.symbol} from ${fromChain.name} to  ${toChain.name}`);
+        this.fromChain = fromChain;
+        this.toChain = toChain
         this.amount = amount;
-        this.token = token;
+        this.fromToken = fromToken;
+        this.toToken = toToken;
 
     }
 
-    static create(fromChain: Chain, toChain: Chain, token: Token, amount: number): BridgeIntent {
-        return new BridgeIntent(fromChain, toChain, token, amount);
+    static create(fromChain: Chain, toChain: Chain, fromToken: Token, toToken: Token, amount: number): BridgeIntent {
+        return new BridgeIntent(fromChain, toChain, fromToken, toToken, amount);
     }
 
     async buildTransaction(network: Chain, fromAddress: string) {
-        const token = getTokenDetailsByContract(this.token.address)
+        const token = getTokenDetailsByContract(this.fromToken.address)
+        // console.log(token, this.token.address)
+        // console.log(token, this.fromChain, this.toChain)
 
         const decimal = token?.decimals || 18
 
         const amount = parseUnits(this.amount.toString(), decimal)
 
-        const req = await constructBridgeTransaction(fromAddress,this.token.address, amount)
+        let req
+
+        let toToken = this.toToken.address;
+        let fromToken = this.fromToken.address;
+
+        if (toToken == NATIVE_TOKEN_ADDRESS) {
+            toToken = "0x0000000000000000000000000000000000000000"
+        }
+
+        if (fromToken == NATIVE_TOKEN_ADDRESS) {
+            fromToken = "0x0000000000000000000000000000000000000000"
+        }
+
+        const lifi = await triggerLifiQuote({
+            fromChain: this.fromChain.chain_id.toString() || "1",
+            toChain: this.toChain.chain_id.toString() || "1",
+            toToken: toToken,
+            fromToken: fromToken,
+            fromAmount: amount.toString(),
+            fromAddress: fromAddress,
+            toAddress: fromAddress,
+            order: 'FASTEST'
+        })
+
+        req = {
+            ...lifi,
+            ...lifi.transactionRequest
+        }
+
+        // const req = await constructBridgeTransaction(fromAddress, this.token.address, amount)
         return req
 
     }
@@ -174,8 +250,12 @@ export function loadIntent(intentData: Record<string, any>): Intent {
                     name: intentData.toChain.name,
                 },
                 {
-                    symbol: intentData.token.symbol,
-                    address: intentData.token.address,
+                    symbol: intentData.fromToken.symbol,
+                    address: intentData.fromToken.address,
+                },
+                {
+                    symbol: intentData.toToken.symbol,
+                    address: intentData.toToken.address,
                 },
                 intentData.amount
             );
