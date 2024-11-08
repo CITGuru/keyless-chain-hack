@@ -28,7 +28,7 @@ export default function CustomChatbot({
   onSignatureRequest,
   onViewTransaction,
   onBundleSigning,
-  oniTxSigning
+  oniTxSigning,
 }: {
   previewButtons?: PreviewButton[];
   // eslint-disable-next-line
@@ -150,7 +150,6 @@ export default function CustomChatbot({
                           >
                             <PenIcon className="w-4 h-4 mr-2" /> Sign
                           </Button>
-                          
                         </div>
                       </div>
                     ))}
@@ -161,8 +160,8 @@ export default function CustomChatbot({
                       </Button>
 
                       <Button onClick={oniTxSigning}>
-                            <PackageIcon className="w-4 h-4 mr-2" /> Bundle iTX
-                          </Button>
+                        <PackageIcon className="w-4 h-4 mr-2" /> Bundle iTX
+                      </Button>
                     </div>
                   )}
                 </div>

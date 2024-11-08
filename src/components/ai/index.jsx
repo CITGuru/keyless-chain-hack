@@ -13,8 +13,8 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 // import TransactionDetailsPopup from './transaction-details-popup';
 import { useAccount, useWallets } from "@particle-network/connectkit";
-import { isEVMChain, step } from "@particle-network/connectkit/chains";
-import Header from "../Header";
+import { isEVMChain } from "@particle-network/connectkit/chains";
+import Header from "../header";
 
 import "./ai.css";
 
