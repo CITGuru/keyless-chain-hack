@@ -3,6 +3,7 @@
 import { useAccount } from "@particle-network/connectkit";
 import { isEVMChain } from "@particle-network/connectkit/chains";
 import AIChat from "./components/ai";
+import Sidebar from "./components/sidebar";
 import styles from "./index.module.css";
 import { useEffect, useState } from "react";
 import { ConnectButton } from "@particle-network/connectkit";
@@ -30,7 +31,14 @@ export default function Index() {
   return (
     <main className={styles["main-content"]}>
       {isConnected && chain && isEVMChain(chain) ? (
-        <AIChat />
+        <div className="flex pt-16">
+          <Sidebar />
+          <div className="flex-1 flex justify-center p-4">
+            <div className="w-full max-w-4xl">
+              <AIChat />
+            </div>
+          </div>
+        </div>
       ) : (
         <div className="flex items-center justify-center min-h-screen">
           <Card className="w-[400px] text-center">
