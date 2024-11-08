@@ -96,7 +96,7 @@ export default function CustomChatbot({
   };
 
   return (
-    <Card className="w-[1000px] h-[800px] min-w-2xl max-w-2xl mx-auto">
+    <Card className="h-[800px] max-w-4xl mx-auto">
       <CardContent className="p-6 h-full flex flex-col">
         <ScrollArea className="flex-1 pr-4 w-full mb-4" ref={scrollAreaRef}>
           {messages.map((message, index) => (

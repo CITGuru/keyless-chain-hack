@@ -3,10 +3,11 @@
 import { useAccount } from "@particle-network/connectkit";
 import { isEVMChain } from "@particle-network/connectkit/chains";
 import AIChat from "./components/ai";
+import Sidebar from "./components/sidebar";
 import styles from "./index.module.css";
 import { useEffect, useState } from "react";
-
-import { ConnectButton, useDisconnect } from "@particle-network/connectkit";
+import { ConnectButton } from "@particle-network/connectkit";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 
 const checkIsDarkSchemePreferred = () => {
   if (typeof window !== "undefined") {
@@ -17,13 +18,10 @@ const checkIsDarkSchemePreferred = () => {
 
 export default function Index() {
   const { isConnected, chain } = useAccount();
-//   const { disconnect } = useDisconnect();
   const [isDarkMode, setIsDarkMode] = useState(checkIsDarkSchemePreferred);
 
   useEffect(() => {
-    const darkModeMediaQuery = window.matchMedia(
-      "(prefers-color-scheme: dark)"
-    );
+    const darkModeMediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
     const handleChange = () => setIsDarkMode(checkIsDarkSchemePreferred());
 
     darkModeMediaQuery.addEventListener("change", handleChange);
@@ -31,19 +29,34 @@ export default function Index() {
   }, []);
 
   return (
-    <>
-      {/* <Header /> */}
-      <main className={styles["main-content"]}>
-        {isConnected && chain && isEVMChain(chain) ? (
-          <>
-            {/* <button onClick={()=>{ disconnect() }}>Disconnect</button> */}
-
-            <AIChat  />
-          </>
-        ) : (
-          <ConnectButton label="Login or connect wallet" />
-        )}
-      </main>
-    </>
+    <main className={styles["main-content"]}>
+      {isConnected && chain && isEVMChain(chain) ? (
+        <div className="flex pt-16">
+          <Sidebar />
+          <div className="flex-1 flex justify-center p-4">
+            <div className="w-full max-w-4xl">
+              <AIChat />
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div className="flex items-center justify-center min-h-screen">
+          <Card className="w-[400px] text-center">
+            <CardHeader>
+              <CardTitle className="text-4xl font-bold mb-2">Keyless</CardTitle>
+              <CardDescription className="text-lg">
+                Natural language wallet management
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="pb-8">
+              {/* Optional: Add any additional content here */}
+            </CardContent>
+            <CardFooter className="flex justify-center">
+              <ConnectButton label="Login or connect wallet" />
+            </CardFooter>
+          </Card>
+        </div>
+      )}
+    </main>
   );
 }
