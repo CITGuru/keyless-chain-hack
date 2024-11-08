@@ -6925,10 +6925,10 @@ keyvaluestorage-interface@^1.0.0:
   resolved "https://registry.yarnpkg.com/keyvaluestorage-interface/-/keyvaluestorage-interface-1.0.0.tgz#13ebdf71f5284ad54be94bd1ad9ed79adad515ff"
   integrity sha512-8t6Q3TclQ4uZynJY9IGr2+SsIGwK9JHcO6ootkHCGA0CrQCRy+VkouYNO2xicET6b9al7QKzpebNow+gkpCL8g==
 
-klaster-sdk@^0.5.11:
-  version "0.5.14"
-  resolved "https://registry.yarnpkg.com/klaster-sdk/-/klaster-sdk-0.5.14.tgz#f9bbedfd3d5a7f1f0b25eb6323388f7fbc233cf2"
-  integrity sha512-mHWJVDSWaudbX+RtXXuAEahviqeMSaHdX33y+Bo4ZtZcz7HEOYMYb67dXVEuWBf7n8IukYmEq5yBwxT51GNt7g==
+klaster-sdk@0.5.11:
+  version "0.5.11"
+  resolved "https://registry.yarnpkg.com/klaster-sdk/-/klaster-sdk-0.5.11.tgz#97e90182ead4210e9a30af5f97155cb7d46fead1"
+  integrity sha512-QEj7Kcrza+WKjZz6UZ4zooTT7/l4bmsYI1CM7gQcyPa/lBvfJRHIOkIGFjNMZEogzrvzZ6Y3VFctdObQX5o8Rw==
   dependencies:
     "@wagmi/core" "2.12.2"
     axios "1.7.5"
