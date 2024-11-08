@@ -256,16 +256,6 @@ export default function AIChat({ isDarkMode=false }) {
       const result = await klaster.execute(quote, signed)
 
 
-
-      // const txHash = await wallet.signMessage({
-      //   to: to,
-      //   data,
-      //   from,
-      //   value,
-      //   chain: chain,
-      //   account: address
-      // });
-
       console.log("Bundle transaction sent:", result);
       // You might want to update the UI to show the transaction was sent successfully
       // For example:

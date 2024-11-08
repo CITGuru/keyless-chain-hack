@@ -140,12 +140,15 @@ export const convertActionsToKlasterRawSteps = (actions: AIAction[], chain: stri
         let lastIndex = 0
         let step = steps.find((s, i) => { lastIndex = i; return s.chainId == chainId })
 
+
+        console.log(action.txData)
+
         if (step) {
-            const tx = constructRawKlasterTxData(action.txData.to as `0x${string}`, action.txData.data as Hex, BigInt(action.txData.value), BigInt(action.txData.gas))
+            const tx = constructRawKlasterTxData(action.txData.to as `0x${string}`, action.txData.data as Hex, BigInt(action.txData.value), BigInt(action.txData.gas || action.txData.gasLimit))
             step.txs.push(tx)
             steps[lastIndex] = step
         } else {
-            const tx = constructRawKlasterTxData(action.txData.to as `0x${string}`, action.txData.data as Hex, BigInt(action.txData.value), BigInt(action.txData.gas))
+            const tx = constructRawKlasterTxData(action.txData.to as `0x${string}`, action.txData.data as Hex, BigInt(action.txData.value), BigInt(action.txData.gas || action.txData.gasLimit))
             steps.push({ chainId: chainId, txs: [tx] })
         }
     }
