@@ -132,6 +132,10 @@ export const SwapTokenAgent = new Agent({
     Call prepareSwapTransaction: "2 ETH to USDC"
     Note: if you see bridge, use the transferToBridgeAgent function
 
+    Example 7:
+    User: Can you help me turn my 10.0 USDC into ethereum?
+    Call prepareSwapTransaction: "10 USDC to ETH"
+
     Example of a bad input:
     User: Swap ETH to 1 UNI, then swap UNI to 4 USDC
     Call prepareSwapTransaction: "ETH to 1 UNI\n1 UNI to 4 USDC"
